@@ -6666,11 +6666,39 @@
         map.addLayer(layer_Mesclado_1);
 
         var googleGeocoder = new L.Control.Geocoder({
-            collapsed: false,
-            position: 'topleft',
-            text: 'Search',
-            title: 'Testing'
+        geocoder: L.Control.Geocoder.google('AIzaSyCiKpZmnL9TQXOJd9Qbzw2agE9kxnTGZ38', {}),
+        collapsed: false,
+        position: 'topleft',
+        text: 'Search',
+        title: 'Testing'
         }).addTo(map);
+
+        var marker; 
+          var panorama; 
+          function initializeStreetView(latlng) {
+              var streetViewContainer = document.getElementById('streetViewContainer');
+              if (!streetViewContainer) {
+                  console.error('Contêiner do Street View não encontrado.');
+                  return;
+              }
+              streetViewContainer.style.display = 'block'; 
+              if (!panorama) {
+                  panorama = new google.maps.StreetViewPanorama(streetViewContainer, {
+                      position: latlng,
+                      pov: { heading: 210, pitch: 10 },
+                      zoom: 1,
+                      zoomControl: false,
+                      fullscreenControl: false,
+                      mapTypeControl: false,
+                      rotateControl: false,
+                  });
+              } else {
+                  panorama.setPosition(latlng);
+              }
+          }
+
+
+        
 
         googleGeocoder.on('markgeocode', function (e) {
             var address = e.geocode.name;
