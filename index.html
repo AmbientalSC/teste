@@ -36,10 +36,10 @@
             box-shadow: 0 2px 5px rgba(0, 0, 0, 0.2);
         }
         #table-container {
-            position: absolute;
+            position: fixed;
             top: 65px; 
-            left: 48%; 
-            width: 50%;
+            right: 20px; 
+            /* width: 50%; */
             /* height: 62%; */
             background-color: rgba(255, 255, 255, 0.8);
             padding: 10px;
@@ -56,50 +56,41 @@
             overflow: hidden;
             left: 90%;
         }
-
-
         #toggle-button {
-            position: fixed; /* Para fixar na tela */
-            top: 20px; /* Distância do topo */
-            right: 20px; /* Distância do lado direito */
+            position: fixed;
+            top: 20px;
+            right: 20px;
             background-color: #007bff;
             color: white;
             border: none;
             padding: 10px 20px;
             cursor: pointer;
             border-radius: 5px;
-            z-index: 1100; /* Para garantir que o botão fique acima da tabela */
+            z-index: 1100; 
         }
-
-
-        /* Ajustar a tabela DataTables */
         table.display {
             width: 100%;
             border-collapse: collapse;
-            font-family: 'Calibri', sans-serif;  /* Definindo a fonte como Calibri */
-            font-size: 11px;  /* Definindo o tamanho da fonte como 10px */
+            font-family: 'Calibri', sans-serif;  
+            font-size: 11px;  
         }
-
         table.display th, table.display td {
             padding: 8px;
             text-align: left;
             border: 1px solid #ddd;
         }
-
         table.display th {
             background-color: #f2f2f2;
         }
         .dataTables_wrapper {
-        font-family: 'Calibri', sans-serif;  /* Definindo a fonte do DataTables */
-        font-size: 11px;  /* Ajuste do tamanho da fonte do DataTables */
+        font-family: 'Calibri', sans-serif; 
+        font-size: 11px;
         }
-
-        /* Ajustando a fonte para os elementos de paginação, busca e informações */
         .dataTables_filter label,
         .dataTables_length label,
         .dataTables_info,
         .dataTables_paginate {
-            font-size: 11px; /* Tamanho da fonte também ajustado para 10px */
+            font-size: 11px; 
         }
         </style>
         <title>Consulta de setores</title>
@@ -111,11 +102,10 @@
 
         <button id="toggle-button">Minimizar setores</button>
         <div id="table-container">
-
             <table id="sectors-table" class="display">
                 <thead>
                     <tr>
-                        <th>Name</th>
+                        <th>Setor</th>
                         <th>Turno</th>
                         <th>Frequência</th>
                         <th>Horário</th>
@@ -141,11 +131,20 @@
         <script src="js/nouislider.min.js"></script>
         <script src="js/wNumb.js"></script>
         <script src="data/Mesclado_1.js"></script>
+        <script async src="https://www.googletagmanager.com/gtag/js?id=G-JB94PX2JPN"></script>
+        <script>
+            window.dataLayer = window.dataLayer || [];
+            function gtag(){dataLayer.push(arguments);}
+            gtag('js', new Date());
+    
+            gtag('config', 'G-JB94PX2JPN');
+        </script>    
+
 
         <script type="text/javascript">
             $(document).ready(function() {
                 var data = json_Mesclado_1.features;
-                
+
                 data.forEach(function(feature) {
                     var name = feature.properties['SETOR'];
                     var turno = feature.properties['TURNO'];
@@ -153,7 +152,7 @@
                     var horario = feature.properties['HORARIO'];
                     var operacao = feature.properties['OPERACAO'];
                     var filial = feature.properties['FILIAL'];
-                    
+
                     $('#sectors-table tbody').append(
                         '<tr>' +
                         '<td>' + name + '</td>' +
@@ -165,55 +164,45 @@
                         '</tr>'
                     );
                 });
-                
-                $('#sectors-table').DataTable({
-                    "language": {
-                        "sEmptyTable": "Nenhum dado disponível na tabela",
-                        "sInfo": "Mostrando _START_ até _END_ de _TOTAL_ registros",
-                        "sInfoEmpty": "Mostrando 0 até 0 de 0 registros",
-                        "sInfoFiltered": "(filtrado de _MAX_ registros no total)",
-                        "sInfoPostFix": "",
-                        "sInfoThousands": ".",
-                        "sLengthMenu": "Mostrar _MENU_ registros",
-                        "sLoadingRecords": "Carregando...",
-                        "sProcessing": "Processando...",
-                        "sSearch": "Buscar:",
-                        "sZeroRecords": "Nenhum registro encontrado",
-                        "oPaginate": {
-                            "sFirst": "Primeiro",
-                            "sLast": "Último",
-                            "sNext": "Próximo",
-                            "sPrevious": "Anterior"
-                        },
-                        "oAria": {
-                            "sSortAscending": ": ativar para ordenar a coluna de forma ascendente",
-                            "sSortDescending": ": ativar para ordenar a coluna de forma descendente"
-                        }
-                    }
-                });                
-                
 
+                $('#sectors-table thead th').each(function () {
+                    var title = $(this).text();
+                    $(this).html('<input type="text" style="width: 101px;" placeholder="'+ title +'" />');
+                });
+
+                var table = $('#sectors-table').DataTable({
+                    scrollY: '300px',
+                    scrollX: true,
+                    scrollCollapse: true,
+                    paging: false,
+                    fixedColumns: true,
+                    dom: 't',
+                    responsive: true
+                });
+
+                table.columns().every(function() {
+                    var that = this;
+
+                    $('input', this.header()).on('keyup change', function() {
+                        if (that.search() !== this.value) {
+                            that.search(this.value).draw();
+                        }
+                    });
+                });
 
                 $('#toggle-button').click(function() {
                     if ($('#table-container').is(':visible')) {
-                        $('#table-container').hide(); // Esconder a tabela
-                        $('#toggle-button').text('Expandir setores'); // Alterar o texto do botão
+                        $('#table-container').hide(); 
+                        $('#toggle-button').text('Expandir setores'); 
                     } else {
-                        $('#table-container').show(); // Mostrar a tabela
-                        $('#toggle-button').text('Minimizar setores'); // Alterar o texto do botão de volta
+                        $('#table-container').show(); 
+                        $('#toggle-button').text('Minimizar setores'); 
                     }
                 });
             });
         </script>
-        
 
-        <script>
-        window.dataLayer = window.dataLayer || [];
-        function gtag(){dataLayer.push(arguments);}
-        gtag('js', new Date());
 
-        gtag('config', 'G-MJ6K26BC57');
-        </script>
 
         <script>
         var highlightLayer;
@@ -235,9 +224,8 @@
             zoomControl:false, maxZoom:20, minZoom:1
         }).fitBounds([[-29.385666846354212,-53.97343868194244],[-24.750071928660105,-47.854453390586215]]);
         var hash = new L.Hash(map);
-        map.attributionControl.setPrefix('<a href="https://github.com/tomchadwin/qgis2web" target="_blank">qgis2web</a> &middot; <a href="https://leafletjs.com" title="A JS library for interactive maps">Leaflet</a> &middot; <a href="https://qgis.org">QGIS</a>');
+        map.attributionControl.setPrefix('<a href="https://github.com/AmbientalSC" target="_blank">Alysson Krombauer</a> &middot; <a href="https://leafletjs.com" title="A JS library for interactive maps">Rev16/10/2024</a> &middot;');
         var autolinker = new Autolinker({truncate: {length: 30, location: 'smart'}});
-        // remove popup's row if "visible-with-data"
         function removeEmptyRowsFromPopupContent(content, feature) {
          var tempDiv = document.createElement('div');
          tempDiv.innerHTML = content;
