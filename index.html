@@ -211,23 +211,19 @@
                     var filial = $(this).attr('data-filial'); // Obtém a filial da linha
 
                     // Procura o setor correspondente no GeoJSON e aplica zoom e abre o popup
-                    json_Mesclado_1.features.forEach(function(feature) {
-                        // Verifica se o setor e a filial correspondem
-                        if (feature.properties['SETOR'] === setor && feature.properties['FILIAL'] === filial) {
-                            // Cria uma camada do setor e adiciona ao mapa
-                            var layer = L.geoJSON(feature).addTo(map);
-
+                    map.eachLayer(function(layer) {
+                        if (layer.feature && layer.feature.properties['SETOR'] === setor && layer.feature.properties['FILIAL'] === filial) {
                             var bounds = layer.getBounds(); // Obtém os limites do setor
                             map.fitBounds(bounds); // Dá zoom no setor
 
                             // Monta o conteúdo do popup baseado nas propriedades do setor
                             var popupContent = '<table>' +
-                                '<tr><th>Setor</th><td>' + feature.properties['SETOR'] + '</td></tr>' +
-                                '<tr><th>Turno</th><td>' + feature.properties['TURNO'] + '</td></tr>' +
-                                '<tr><th>Frequência</th><td>' + feature.properties['FREQUENCIA'] + '</td></tr>' +
-                                '<tr><th>Horário</th><td>' + feature.properties['HORARIO'] + '</td></tr>' +
-                                '<tr><th>Operação</th><td>' + feature.properties['OPERACAO'] + '</td></tr>' +
-                                '<tr><th>Filial</th><td>' + feature.properties['FILIAL'] + '</td></tr>' +
+                                '<tr><th>Setor</th><td>' + layer.feature.properties['SETOR'] + '</td></tr>' +
+                                '<tr><th>Turno</th><td>' + layer.feature.properties['TURNO'] + '</td></tr>' +
+                                '<tr><th>Frequência</th><td>' + layer.feature.properties['FREQUENCIA'] + '</td></tr>' +
+                                '<tr><th>Horário</th><td>' + layer.feature.properties['HORARIO'] + '</td></tr>' +
+                                '<tr><th>Operação</th><td>' + layer.feature.properties['OPERACAO'] + '</td></tr>' +
+                                '<tr><th>Filial</th><td>' + layer.feature.properties['FILIAL'] + '</td></tr>' +
                                 '</table>';
 
                             layer.bindPopup(popupContent).openPopup(); // Abre o popup no setor
@@ -236,6 +232,7 @@
                 });
             });
         </script>
+
 
 
 
