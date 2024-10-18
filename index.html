@@ -232,12 +232,6 @@
                 });
             });
         </script>
-
-
-
-
-
-
         <script>
         var highlightLayer;
         function highlightFeature(e) {
@@ -3655,6 +3649,19 @@
             }
                     break;
                 case 'M01':
+                    return {
+                pane: 'pane_Mesclado_1',
+                opacity: 1,
+                color: 'rgba(92,132,227,1.0)',
+                dashArray: '',
+                lineCap: 'square',
+                lineJoin: 'bevel',
+                weight: 3.0,
+                fillOpacity: 0,
+                interactive: true,
+            }
+                    break;
+                case 'SM01':
                     return {
                 pane: 'pane_Mesclado_1',
                 opacity: 1,
