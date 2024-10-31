@@ -2880,6 +2880,20 @@
                 fillOpacity: 0,
                 interactive: true,
             }
+            
+                break;
+                    case '134b':
+                        return {
+                    pane: 'pane_Mesclado_1',
+                    opacity: 1,
+                    color: 'rgba(103,223,195,1.0)',
+                    dashArray: '',
+                    lineCap: 'square',
+                    lineJoin: 'bevel',
+                    weight: 3.0,
+                    fillOpacity: 0,
+                    interactive: true,
+                }
                     break;
                 case '64':
                     return {
@@ -2908,6 +2922,19 @@
             }
                     break;
                 case '69':
+                    return {
+                pane: 'pane_Mesclado_1',
+                opacity: 1,
+                color: 'rgba(52,19,201,1.0)',
+                dashArray: '',
+                lineCap: 'square',
+                lineJoin: 'bevel',
+                weight: 3.0,
+                fillOpacity: 0,
+                interactive: true,
+            }
+            break;
+                case '134c':
                     return {
                 pane: 'pane_Mesclado_1',
                 opacity: 1,
@@ -2972,6 +2999,32 @@
                 interactive: true,
             }
                     break;
+                case '134a':
+                    return {
+                pane: 'pane_Mesclado_1',
+                opacity: 1,
+                color: 'rgba(233,169,112,1.0)',
+                dashArray: '',
+                lineCap: 'square',
+                lineJoin: 'bevel',
+                weight: 3.0,
+                fillOpacity: 0,
+                interactive: true,
+            }
+            break;
+                case '18b':
+                    return {
+                pane: 'pane_Mesclado_1',
+                opacity: 1,
+                color: 'rgba(233,169,112,1.0)',
+                dashArray: '',
+                lineCap: 'square',
+                lineJoin: 'bevel',
+                weight: 3.0,
+                fillOpacity: 0,
+                interactive: true,
+            }
+                    break;
                 case '74':
                     return {
                 pane: 'pane_Mesclado_1',
@@ -2999,6 +3052,19 @@
             }
                     break;
                 case '76':
+                    return {
+                pane: 'pane_Mesclado_1',
+                opacity: 1,
+                color: 'rgba(229,83,212,1.0)',
+                dashArray: '',
+                lineCap: 'square',
+                lineJoin: 'bevel',
+                weight: 3.0,
+                fillOpacity: 0,
+                interactive: true,
+            }
+            break;
+                case '18c':
                     return {
                 pane: 'pane_Mesclado_1',
                 opacity: 1,
@@ -3038,6 +3104,19 @@
             }
                     break;
                 case '79':
+                    return {
+                pane: 'pane_Mesclado_1',
+                opacity: 1,
+                color: 'rgba(40,207,193,1.0)',
+                dashArray: '',
+                lineCap: 'square',
+                lineJoin: 'bevel',
+                weight: 3.0,
+                fillOpacity: 0,
+                interactive: true,
+            }
+            break;
+                case '18d':
                     return {
                 pane: 'pane_Mesclado_1',
                 opacity: 1,
@@ -6878,9 +6957,9 @@
             sel_OPERACAO.multiple = true;
             sel_OPERACAO.size = 3;
             sel_OPERACAO.id = "sel_OPERACAO";
-            var OPERACAO_options_str = "<option value='DOMICILIAR' unselected>Domiciliar</option>";
+            var OPERACAO_options_str = "<option value='Domiciliar' unselected>Domiciliar</option>";
             sel_OPERACAO.onchange = function(){filterFunc()};
-            OPERACAO_options_str  += '<option value="SELETIVA">Seletiva</option>';
+            OPERACAO_options_str  += '<option value="Seletiva">Seletiva</option>';
             OPERACAO_options_str  += '<option value="VOLUMOSOS">Volumosos BC</option>';
             sel_OPERACAO.innerHTML = OPERACAO_options_str;
             div_OPERACAO.appendChild(sel_OPERACAO);
